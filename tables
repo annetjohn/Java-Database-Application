@@ -1,0 +1,42 @@
+CREATE DATABASE paper;       #the database name: paper is created
+
+SHOW DATABASES;              #showing all the databases available and select the 'paper' database to start creating tables.
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| paper              |        <=== create tables for the database 'paper'   
+| paper_review       |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+
+USE paper;                   # the database 'paper' is in use
+Database changed  
+
+******************************************************************************
+#so according to the ER diagram on 3.34 - 'paper review database'
+#Got to create 5 tables: AUTHOR, REVIEWER, TOPIC, REVIEW, PAPER
+******************************************************************************
+
+ CREATE TABLE author                            #table creation for author     
+    -> (
+    -> EmailAddr     VARCHAR (320) NOT NULL,    #email address of the author
+    -> FirstName     VARCHAR (150) NOT NULL,    #first name of the author
+    -> LastName      VARCHAR (150) NOT NULL,    #last name of the author
+    -> PRIMARY KEY   (EmailAddr)                #make the EmailAddr the primary id
+    -> );
+    
+DESCRIBE author;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| EmailAddr | varchar(320) | NO   | PRI | NULL    |       |
+| FirstName | varchar(150) | NO   |     | NULL    |       |
+| LastName  | varchar(150) | NO   |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+
+
