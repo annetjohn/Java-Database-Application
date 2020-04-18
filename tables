@@ -102,25 +102,25 @@ DESCRIBE reviewer;
     -> id INT unsigned NOT NULL AUTO_INCREMENT,          #using a unique id for the review to be done
     -> PaperId  INT (20) NOT NULL,                       #paper id of the paper
     -> ReviewerId    INT (20) NOT NULL,                  #reviewer id for the reviewer for the paper
-    -> Originality_Score   DECIMAL(3,2) NOT NULL,        #the original score of the paper
-    -> Readability_Score   DECIMAL(3,2) NOT NULL,        #the readability score of the paper
-    -> Merit_Score         DECIMAL(3,2) NOT NULL,        #the merit score of the paper
-    -> Relevance_Score     DECIMAL(3,2) NOT NULL,        #relevance score of the paper
+    -> Originality_Score   DECIMAL(5,2) NOT NULL,        #the original score of the paper
+    -> Readability_Score   DECIMAL(5,2) NOT NULL,        #the readability score of the paper
+    -> Merit_Score         DECIMAL(5,2) NOT NULL,        #the merit score of the paper
+    -> Relevance_Score     DECIMAL(5,2) NOT NULL,        #relevance score of the paper
     -> Recommendation      VARCHAR (500) NOT NULL,       #recommended papers to be reviewed
     -> PRIMARY KEY         (id)
     -> );
 
- DESCRIBE REVIEW;
+ Describe review;
 +-------------------+--------------+------+-----+---------+----------------+
 | Field             | Type         | Null | Key | Default | Extra          |
 +-------------------+--------------+------+-----+---------+----------------+
 | id                | int unsigned | NO   | PRI | NULL    | auto_increment |
 | PaperId           | int          | NO   |     | NULL    |                |
 | ReviewerId        | int          | NO   |     | NULL    |                |
-| Originality_Score | decimal(3,2) | NO   |     | NULL    |                |
-| Readability_Score | decimal(3,2) | NO   |     | NULL    |                |
-| Merit_Score       | decimal(3,2) | NO   |     | NULL    |                |
-| Relevance_Score   | decimal(3,2) | NO   |     | NULL    |                |
+| Originality_Score | decimal(5,2) | NO   |     | NULL    |                |
+| Readability_Score | decimal(5,2) | NO   |     | NULL    |                |
+| Merit_Score       | decimal(5,2) | NO   |     | NULL    |                |
+| Relevance_Score   | decimal(5,2) | NO   |     | NULL    |                |
 | Recommendation    | varchar(500) | NO   |     | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
 
