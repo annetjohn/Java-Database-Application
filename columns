@@ -1,0 +1,171 @@
+#Populating the database by using SQL queries:
+# INSERT, ALTER, DROP, ADD, DELETE
+
+SHOW TABLES;
++-----------------+
+| Tables_in_paper |
++-----------------+
+| author          |
+| paper           |
+| review          |
+| reviewer        |
+| topic           |
++-----------------+
+****************************************************************
+
+
+INSERT INTO author (EmailAddr, FirstName, LastName) VALUES               #inserting values to the table 'author'
+    -> ('jbutt@gmail.com', 'James', 'Butt'),
+    -> ('kris@gmail.com', 'Kris', 'Marrier'),
+    -> ('art@venere.org', 'Art', 'Venere'),
+    -> ('lpaprocki@hotmail.com', 'Lenna', 'Paprocki'),
+    -> ('amaclead@gmail.com', 'Abel', 'Maclead');
+
+
+SElECT * FROM author;                                                    #brings out the whole data stored in the table
++-----------------------+-----------+----------+
+| EmailAddr             | FirstName | LastName |
++-----------------------+-----------+----------+
+| amaclead@gmail.com    | Abel      | Maclead  |
+| art@venere.org        | Art       | Venere   |
+| jbutt@gmail.com       | James     | Butt     |
+| kris@gmail.com        | Kris      | Marrier  |
+| lpaprocki@hotmail.com | Lenna     | Paprocki |
++-----------------------+-----------+----------+
+
+*******************************************************************
+
+ INSERT INTO paper (id, title, abstract, filename) VALUES                #inserting values to the table 'paper'
+    -> ('1', 'Technological Frames', 'proposing a systematic approach for examining the underlying assumptions, expectations, and knowledge that people have about technology', 'tech'),
+    -> ('2', 'National Science', 'an overview of initiatives for information technology (IT) education undertaken by projects in Advanced technology', 'national_sci'),
+    -> ('3', 'Technology Access', 'The purpose of this paper is to study how teachers from different schools and school levels utilize technological resources in their teaching.', 'TechAccess'),
+    -> ('4', 'Physical database design', 'This paper describes the concepts used in the implementation of DBDSGN', 'DataDesign'),
+    -> ('5', 'Database description with SDM', 'This database model is designed to capture more of the meaning of an application environment than is possible with contemporary database', 'SDMData');
+    
+    SELECT * FROM paper;
++----+-------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+| id | Title                         | Abstract                                                                                                                                       | FileName     |
++----+-------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+|  1 | Technological Frames          | proposing a systematic approach for examining the underlying assumptions, expectations, and knowledge that people have about technology        | tech         |
+|  2 | National Science              | an overview of initiatives for information technology (IT) education undertaken by projects in Advanced technology                             | national_sci |
+|  3 | Technology Access             | The purpose of this paper is to study how teachers from different schools and school levels utilize technological resources in their teaching. | TechAccess   |
+|  4 | Physical database design      | This paper describes the concepts used in the implementation of DBDSGN                                                                         | DataDesign   |
+|  5 | Database description with SDM | This database model is designed to capture more of the meaning of an application environment than is possible with contemporary database       | SDMData      |
++----+-------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+--------------+
+
+**********************************************************************
+
+INSERT INTO review (id, paperid, reviewerid, originality_score, readability_score, merit_score, relevance_score, recommendation) VALUES
+    -> ('1', '71147', '21', '93.1', '89.1', '86.3', '90.1', 'Experimental results showed that pulsed flow without flow reversal had no significant effect compared with steady flow.'),
+    -> ('2', '71200', '20', '83.5', '80.5', '76.3', '85.2', 'Further research is recommended to determine the maximum achievable enhancement.'),
+    -> ('3', '71350', '23', '92.3', '89.2', '92.2', '90.1', 'This is likely due to the large disturbances in the hydrodynamic boundary layer when the flow changes direction.'),
+    -> ('4', '71389', '24', '86.4', '87.6', '84.2', '86.9', 'It should be noted that the experimental results do not agree with the theoretical equations.'),
+    -> ('5', '71456', '25', '98.9', '97.1', '96.2', '97.4', 'Both designs incorporate round piers on piled foundations, which are used because the soil conditions are unknown and possibly unstable.');
+ERROR 1264 (22003): Out of range value for column 'Originality_Score' at row 1
+
+**************************************************************************************************************************
+for the table 'review' the 'originality_score, readability_score, merit_score, relevance_score' the data type mentioned was wrong, instead of decimal(5,2) it was typed in decimal(3,2)
+and while executing the table, it shows 'Out of range value', so made the changes by droping the column and then altering the table by adding the columns with the right data type - decimal(5,2).
+****************************************************************************************************************************
+
+ ALTER TABLE review DROP COLUMN Originality_Score;            #droping the columns from the table 'review'
+ ALTER TABLE review DROP COLUMN Readability_Score;
+ ALTER TABLE review DROP COLUMN Merit_Score;
+ ALTER TABLE review DROP COLUMN Relevance_Score;
+ 
+ Describe review;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| id             | int unsigned | NO   | PRI | NULL    | auto_increment |
+| PaperId        | int          | NO   |     | NULL    |                |
+| ReviewerId     | int          | NO   |     | NULL    |                |
+| Recommendation | varchar(500) | NO   |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+
+#adding the columns with the right datatype
+
+ALTER TABLE review ADD Originality_Score decimal (5,2) NOT NULL AFTER ReviewerId;
+ALTER TABLE review ADD Readability_Score decimal (5,2) NOT NULL AFTER originality_score;
+ALTER TABLE review ADD Merit_Score decimal (5,2) NOT NULL AFTER readability_score;
+ALTER TABLE review ADD Relevance_Score decimal (5,2) NOT NULL AFTER merit_score;
+
+
+ Describe review;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int unsigned | NO   | PRI | NULL    | auto_increment |
+| PaperId           | int          | NO   |     | NULL    |                |
+| ReviewerId        | int          | NO   |     | NULL    |                |
+| Originality_Score | decimal(5,2) | NO   |     | NULL    |                |
+| Readability_Score | decimal(5,2) | NO   |     | NULL    |                |
+| Merit_Score       | decimal(5,2) | NO   |     | NULL    |                |
+| Relevance_Score   | decimal(5,2) | NO   |     | NULL    |                |
+| Recommendation    | varchar(500) | NO   |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+
+******************************************************************************************************
+
+# creation of columns for table 'review'
+
+INSERT INTO review (id, paperid, reviewerid, originality_score, readability_score, merit_score, relevance_score, recommendation) VALUES
+    -> ('1', '71147', '20', '90.45', '92.89', '89.01', '92.30', 'To begin with, in order to reduce the impact of a given issue, Sony Computer Entertainment (SCE) needs to conduct a proper analysis and outline the best course of actions.');
+    -> ('2', '71345', '21', '95.45', '96.89', '90.01', '92.45', 'All in all, when the policy is changed and all employees are fully aware of it, it is of utmost importance to create a proper marketing campaign, especially on the web due to the fact that the majority of people spend their free time on the Internet.');
+    -> ('3', '71675', '22', '87.90', '87.67', '81.01', '82.45', 'The marketing campaign will feature new innovative changes regarding customer service, as well as, how these new systems are far more superior from those that are sold by their main competitors.'),
+    -> ('4', '71265', '23', '77.99', '75.02', '72.87', '75.00', 'In recent years,a Japanese video game company, generated stable income and is generally considered to be a successful company that has a positive public image.'),
+    -> ('5', '71879', '24', '87.89', '95.12', '92.37', '95.00', ' the result will not only eliminate the problem, but will guide the company towards new customer, beneficial outcomes, which is essentially the core idea behind this recommendation.');
+    
+    SELECT * FROM review;
++----+---------+------------+-------------------+-------------------+-------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| id | PaperId | ReviewerId | Originality_Score | Readability_Score | Merit_Score | Relevance_Score | Recommendation                                                                                                                                                                                                                                             |
++----+---------+------------+-------------------+-------------------+-------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|  1 |   71147 |         20 |             90.45 |             92.89 |       89.01 |           92.30 | To begin with, in order to reduce the impact of a given issue, Sony Computer Entertainment (SCE) needs to conduct a proper analysis and outline the best course of actions.                                                                                |
+|  2 |   71345 |         21 |             95.45 |             96.89 |       90.01 |           92.45 | All in all, when the policy is changed and all employees are fully aware of it, it is of utmost importance to create a proper marketing campaign, especially on the web due to the fact that the majority of people spend their free time on the Internet. |
+|  3 |   71675 |         22 |             87.90 |             87.67 |       81.01 |           82.45 | The marketing campaign will feature new innovative changes regarding customer service, as well as, how these new systems are far more superior from those that are sold by their main competitors.                                                         |
+|  4 |   71265 |         23 |             77.99 |             75.02 |       72.87 |           75.00 | In recent years,a Japanese video game company, generated stable income and is generally considered to be a successful company that has a positive public image.                                                                                            |
+|  5 |   71879 |         24 |             87.89 |             95.12 |       92.37 |           95.00 |  the result will not only eliminate the problem, but will guide the company towards new customer, beneficial outcomes, which is essentially the core idea behind this recommendation.                                                                      |
++----+---------+------------+-------------------+-------------------+-------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+ 
+*******************************************************************************************
+
+#creation of columns for the 'reviewer' table
+
+ INSERT INTO reviewer (emailaddr, firstname, lastname, phonenum, authorfeedback, commiteefeedback, affiliation) VALUES
+    -> ('elza@yahoo.com', 'Elza', 'Lipke', '9737963667', 'Excellent', 'Work on the reference part of the paper', 'ACM'),
+    -> ('mmunns@cox.net', 'Myra', 'Munns', '9696196991', 'good work', 'work on the conditions offered', 'IEEE'),
+    -> ('tshields@gmail.com', 'Tyra', 'Shields', '9856438920', 'Average', 'Recommendations should be specified', 'ACM'),
+    -> ('lai.gato@gato.org', 'Lai', 'Gato', '9534876696', 'Good', 'Be more specific on the conclusions part', 'ACM'),
+    -> ('corygibes@gmail.com', 'Cory', 'Gibes', '9787532222', 'Average', 'Work on the Research methodology', 'IEEE');
+    
+    SELECT * FROM reviewer;
++---------------------+-----------+----------+------------+----------------+------------------------------------------+-------------+
+| EmailAddr           | FirstName | LastName | PhoneNum   | AuthorFeedback | CommiteeFeedback                         | Affiliation |
++---------------------+-----------+----------+------------+----------------+------------------------------------------+-------------+
+| corygibes@gmail.com | Cory      | Gibes    | 9787532222 | Average        | Work on the Research methodology         | IEEE        |
+| elza@yahoo.com      | Elza      | Lipke    | 9737963667 | Excellent      | Work on the reference part of the paper  | ACM         |
+| lai.gato@gato.org   | Lai       | Gato     | 9534876696 | Good           | Be more specific on the conclusions part | ACM         |
+| mmunns@cox.net      | Myra      | Munns    | 9696196991 | good work      | work on the conditions offered           | IEEE        |
+| tshields@gmail.com  | Tyra      | Shields  | 9856438920 | Average        | Recommendations should be specified      | ACM         |
++---------------------+-----------+----------+------------+----------------+------------------------------------------+-------------+
+
+*************************************************************************************************
+
+#Creation of the columns for the table 'topic'
+ 
+ INSERT INTO topic (id, topicname) VALUES
+    -> ('1', 'Technology'),
+    -> ('2', 'National Science'),
+    -> ('3', 'Database Design');
+    
+    SELECT * FROM topic;
++----+------------------+
+| id | TopicName        |
++----+------------------+
+|  1 | Technology       |
+|  2 | National Science |
+|  3 | Database Design  |
++----+------------------+
+
+**************************************************************************
+
