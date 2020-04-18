@@ -21,6 +21,9 @@ Database changed
 #so according to the ER diagram on 3.34 - 'paper review database'
 #Got to create 5 tables: AUTHOR, REVIEWER, TOPIC, REVIEW, PAPER
 ******************************************************************************
+******************************************************************************
+#creating a table for 'author'
+******************************************************************************
 
  CREATE TABLE author                            #table creation for author     
     -> (
@@ -38,5 +41,125 @@ DESCRIBE author;
 | FirstName | varchar(150) | NO   |     | NULL    |       |
 | LastName  | varchar(150) | NO   |     | NULL    |       |
 +-----------+--------------+------+-----+---------+-------+
+
+******************************************************************************
+#creating a table for 'reviewer'
+******************************************************************************
+
+CREATE TABLE reviewer                          #table creation for 'reviewer'
+    -> (
+    -> EmailAddr     VARCHAR (320) NOT NULL,   #email address of the reviewer
+    -> FirstName     VARCHAR (150) NOT NULL,   #first name of the reviewer
+    -> LastName      VARCHAR (150) NOT NULL,   #last name of the reviewer
+    -> PhoneNum      VARCHAR (50) NOT NULL,    #phone number details
+    -> AuthorFeedback VARCHAR (300) NOT NULL,  #the author's feedback to the reviewer
+    -> CommiteeFeedback VARCHAR (300) NOT NULL, #the commitee's feedback
+    -> Affiliation      VARCHAR (20) NOT NULL,  #paper affiliated by
+    -> PRIMARY KEY     (EmailAddr)
+    -> );
+
+DESCRIBE reviewer;
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| EmailAddr        | varchar(320) | NO   | PRI | NULL    |       |
+| FirstName        | varchar(150) | NO   |     | NULL    |       |
+| LastName         | varchar(150) | NO   |     | NULL    |       |
+| PhoneNum         | varchar(50)  | NO   |     | NULL    |       |
+| AuthorFeedback   | varchar(300) | NO   |     | NULL    |       |
+| CommiteeFeedback | varchar(300) | NO   |     | NULL    |       |
+| Affiliation      | varchar(20)  | NO   |     | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+
+******************************************************************************
+#creating a table for 'paper'
+******************************************************************************
+ CREATE TABLE paper                                      #table creation for 'paper'
+    -> (
+    -> id   INT unsigned NOT NULL AUTO_INCREMENT,        #unique id of the paper
+    -> Title  VARCHAR (50) NOT NULL,                     #title of the paper
+    -> Abstract    VARCHAR (150) NOT NULL,               #abstarct of the paper
+    -> FileName    VARCHAR (20) NOT NULL,                #filename of the paper
+    -> PRIMARY KEY   (id)
+    -> );
+    
+ DESCRIBE paper;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int unsigned | NO   | PRI | NULL    | auto_increment |
+| Title    | varchar(50)  | NO   |     | NULL    |                |
+| Abstract | varchar(150) | NO   |     | NULL    |                |
+| FileName | varchar(20)  | NO   |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+
+******************************************************************************
+#creating a table for 'review'
+******************************************************************************
+
+ CREATE TABLE review                                     #table creation for 'review'
+    -> (
+    -> id INT unsigned NOT NULL AUTO_INCREMENT,          #using a unique id for the review to be done
+    -> PaperId  INT (20) NOT NULL,                       #paper id of the paper
+    -> ReviewerId    INT (20) NOT NULL,                  #reviewer id for the reviewer for the paper
+    -> Originality_Score   DECIMAL(3,2) NOT NULL,        #the original score of the paper
+    -> Readability_Score   DECIMAL(3,2) NOT NULL,        #the readability score of the paper
+    -> Merit_Score         DECIMAL(3,2) NOT NULL,        #the merit score of the paper
+    -> Relevance_Score     DECIMAL(3,2) NOT NULL,        #relevance score of the paper
+    -> Recommendation      VARCHAR (500) NOT NULL,       #recommended papers to be reviewed
+    -> PRIMARY KEY         (id)
+    -> );
+
+ DESCRIBE REVIEW;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| id                | int unsigned | NO   | PRI | NULL    | auto_increment |
+| PaperId           | int          | NO   |     | NULL    |                |
+| ReviewerId        | int          | NO   |     | NULL    |                |
+| Originality_Score | decimal(3,2) | NO   |     | NULL    |                |
+| Readability_Score | decimal(3,2) | NO   |     | NULL    |                |
+| Merit_Score       | decimal(3,2) | NO   |     | NULL    |                |
+| Relevance_Score   | decimal(3,2) | NO   |     | NULL    |                |
+| Recommendation    | varchar(500) | NO   |     | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+
+
+******************************************************************************
+#creating a table for 'topic'
+******************************************************************************
+ 
+CREATE TABLE topic                                                  #table creation for 'topic'
+    -> (
+    -> id         INT unsigned NOT NULL AUTO_INCREMENT,             #unique id for the topic
+    -> TopicName  VARCHAR (20) NOT NULL,                            #topic name for the paper
+    -> PRIMARY KEY  (id)
+    -> );
+    
+    DESCRIBE TOPIC;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| id        | int unsigned | NO   | PRI | NULL    | auto_increment |
+| TopicName | varchar(20)  | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+
+***********************************************************************************
+SHOW TABLES;                           #all the created tables displayed.
++-----------------+
+| Tables_in_paper |
++-----------------+
+| author          |
+| paper           |
+| review          |
+| reviewer        |
+| topic           |
++-----------------+
+    
+
+
+
+
+
 
 
