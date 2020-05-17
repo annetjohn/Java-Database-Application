@@ -1,11 +1,11 @@
 # database assignment Project - part 2
 JDBC JAVA application - PaperReviewDatabase
 
-# initalization 
+# Steps to get connected with JDBC and to execute SQL queries:
 
-Step 1: get a connection to database
-Step 2: Create a statement 
-Step 3: Execute SQL query 
+Step 1: get a connection to database,
+Step 2: Create a statement,
+Step 3: Execute SQL query,
 Step 4: Process the result set 
 
 # queries executed: 
